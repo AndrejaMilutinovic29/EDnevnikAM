@@ -178,7 +178,7 @@ namespace EDnevnikAM
 
         private void btnINSERT_Click(object sender, EventArgs e)
         {
-            SqlCommand naredba = new SqlCommand("Select id from raspodela where godina_id = " + cmbGODINA.SelectedValue.ToString()+ " and nastavnik_id = " + cmbPROFESOR.SelectedValue.ToString() + "and predmet_id = " + cmbPREDMET.SelectedValue.ToString()+ " and odeljenje_id = " + cmbODELJENJE.SelectedValue.ToString(), veza);
+            SqlCommand naredba = new SqlCommand("SELECT ID FROM raspodela WHERE godina_id = " + cmbGODINA.SelectedValue.ToString()+ " and nastavnik_id = " + cmbPROFESOR.SelectedValue.ToString() + "and predmet_id = " + cmbPREDMET.SelectedValue.ToString()+ " and odeljenje_id = " + cmbODELJENJE.SelectedValue.ToString(), veza);
             int id_raspodela = 0;
             try
             {
@@ -193,17 +193,12 @@ namespace EDnevnikAM
 
             if (id_raspodela > 0)
             {
-                StringBuilder command2 = new StringBuilder("insert into ocena (datum, raspodela_id, ucenik_id, ocena) values( '");
-                DateTime datumcic = Datum.Value;
-                command2.Append(datumcic.ToString("yyyy-MM-dd") + "', '");
-                command2.Append(id_raspodela.ToString() + "', '");
-                command2.Append(cmbUCENIK.SelectedValue.ToString() + "', '");
-                command2.Append(cmbOCENA.SelectedItem.ToString() + "')");
-                naredba = new SqlCommand(command2.ToString(), veza);
+                DateTime datum = Datum.Value;
+                SqlCommand naredba1 = new SqlCommand("INSERT INTO ocena (datum, raspodela_id, ucenik_id, ocena) values( '"+ datum.ToString("yyyy-MM-dd") + "', '"+ id_raspodela.ToString() + "', '"+ cmbUCENIK.SelectedValue.ToString() + "', '" + cmbOCENA.SelectedItem.ToString() + "')", veza);
                 try
                 {
                     veza.Open();
-                    naredba.ExecuteNonQuery();
+                    naredba1.ExecuteNonQuery();
                     veza.Close();
                 }
                 catch (Exception Greska)
@@ -220,8 +215,8 @@ namespace EDnevnikAM
         {
             if (Convert.ToInt32(txtID.Text) > 0)
             {
-                DateTime datumce = Datum.Value;
-                SqlCommand naredba = new SqlCommand("UPDATE ocena SET  ucenik_id = '" + cmbUCENIK.SelectedValue.ToString() + "', ocena = '" + cmbOCENA.SelectedItem.ToString() + "', datum = '" + datumce.ToString("yyyy-MM-dd") + "' WHERE id = " + txtID.Text, veza);
+                DateTime datum = Datum.Value;
+                SqlCommand naredba = new SqlCommand("UPDATE ocena SET  ucenik_id = '" + cmbUCENIK.SelectedValue.ToString() + "', ocena = '" + cmbOCENA.SelectedItem.ToString() + "', datum = '" + datum.ToString("yyyy-MM-dd") + "' WHERE id = " + txtID.Text, veza);
                 try
                 {
                     veza.Open();
@@ -240,8 +235,7 @@ namespace EDnevnikAM
         {
             if (Convert.ToInt32(txtID.Text) > 0)
             {
-                string delete = "delete from ocena where id = " + txtID.Text;
-                SqlCommand komanda = new SqlCommand(delete.ToString(), veza);
+                SqlCommand komanda = new SqlCommand("DELETE FROM ocena WHERE id = " + txtID.Text, veza);
                 try
                 {
                     veza.Open();
