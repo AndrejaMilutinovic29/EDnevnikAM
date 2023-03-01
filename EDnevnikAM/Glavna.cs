@@ -52,5 +52,11 @@ namespace EDnevnikAM
             Sifarnik frmSIFARNIK = new Sifarnik("osoba");
             frmSIFARNIK.Show();
         }
+
+        private void oceneToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Ocena frmOCENA = new Ocena();
+            frmOCENA.Show();
+        }
     }
 }
